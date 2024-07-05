@@ -1,0 +1,3 @@
+import authenticator
+
+authenticator.auTest()
