@@ -81,3 +81,5 @@ def display_message(message, message_type):
         msg.setWindowTitle("Welcome :)")
     msg.setText(message)
     msg.exec_()
+
+display_message("Welcome", LGN_SUCC)
