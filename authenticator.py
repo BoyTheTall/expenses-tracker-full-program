@@ -81,3 +81,15 @@ def open_conn():
     cursor = conn.cursor()
     return conn, cursor
 
+def getUserDetails(username):
+    conn, cursor = open_conn()
+    sql_statement = f"SELECT * FROM tblPasswords WHERE username = '{username}'"
+    result_set = cursor.execute(sql_statement)
+    items = list(result_set.fetchall())
+    username = items[0][0]
+    password = items[0][1]
+    cursor.close()
+    conn.close()
+    return username, password
+
+
