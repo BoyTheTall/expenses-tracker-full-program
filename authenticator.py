@@ -23,7 +23,7 @@ def authenticate(username, password):
     sql_statement = f"SELECT * FROM tblPasswords WHERE username = '{username}' AND password = '{password}'"
     result_set = cursor.execute(sql_statement)
     items = list(result_set.fetchall())
-
+    print(items)
     if len(items) == 0:
         code = Login_failed
         msg.display_message("Error, invalid credentials entered", msg.ERROR_MSG)
@@ -58,6 +58,7 @@ def update_user(old_username, old_password, new_username, new_password):
     cursor.close()
     conn.close()
     print("Login Credintials updated successfully")
+    msg.display_message("User details have been updated successfully", msg.ERROR_MSG)
     # untested
 
 

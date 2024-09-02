@@ -57,7 +57,7 @@ class Ui_MainWindow(object):
         self.pwdUsername.setToolTip(_translate("MainWindow", "<html><head/><body><p>Enter Your Username</p></body></html>"))
         
     def login(self):
-        username = self.pwdUsername.text()
+        username = str(self.pwdUsername.text())
         password = self.pwdPassword.text()
         login_attempt_status = au.authenticate(username, password)
         #login_attempt_status = 1
