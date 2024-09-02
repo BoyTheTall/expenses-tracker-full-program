@@ -52,7 +52,6 @@ def add_user(username, password):
 
 def update_user(old_username, new_username, new_password):
     sql_statement = f"UPDATE tblPasswords SET username = '{new_username}', password = '{new_password}' WHERE username = '{old_username}'"
-    print(sql_statement)
     conn, cursor = open_conn()
     cursor.execute(sql_statement)
     conn.commit()

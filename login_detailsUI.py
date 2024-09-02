@@ -104,9 +104,7 @@ class Ui_MainWindow(object):
         username_confirmation = self.pwfConfirmUsername.text()
         password = self.pwfPassword.text()
         password_confirmation =  self.pwfConfirmPassword.text()
-        
-        print(username, username_confirmation, password_confirmation, password)
-        
+                
         if username == username_confirmation and password == password_confirmation and username is not None and password is not None:
             authenticator.update_user(old_username= self.g_username, new_password=password, new_username=username)
             f = open("current session.txt", 'w')
