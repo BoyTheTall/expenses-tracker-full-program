@@ -1,7 +1,7 @@
 ERROR_MSG = 0
 INFO_MSG = 1
 FAILED_OPERATION = 2
-SUCCESSFUL_OPERATION = 3
+SUCCESSFUL_OPERATION = 3#do not use, breaks the whole application for some reason. i'll investigate this probably
 from PyQt5 import QtWidgets
 
 def display_message(message, message_type):

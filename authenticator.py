@@ -26,15 +26,15 @@ def authenticate(username, password):
     print(items)
     if len(items) == 0:
         code = Login_failed
-        msg.display_message("Error, invalid credentials entered", msg.ERROR_MSG)
+        
 
     elif len(items) > 1:
         code = duplicate_credentials
-        msg.display_message("Error duplicate creditials found in database. Guess I did not code this abomination correctly", msg.ERROR_MSG)
+       
 
     elif len(items) == 1:
         code = Login_success
-        msg.display_message(f"Welcome {username}", msg.INFO_MSG)
+        
 
     cursor.close()
     conn.close()
@@ -57,9 +57,7 @@ def update_user(old_username, new_username, new_password):
     conn.commit()
     cursor.close()
     conn.close()
-    print("Login Credintials updated successfully")
-    msg.display_message("User details have been updated successfully", msg.INFO_MSG)
-    # untested
+    # needs more testing
 
 
 # create a json file that will check if we did the first time set up of this
