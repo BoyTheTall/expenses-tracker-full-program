@@ -58,7 +58,7 @@ def update_user(old_username, new_username, new_password):
     cursor.close()
     conn.close()
     print("Login Credintials updated successfully")
-    #msg.display_message("User details have been updated successfully", msg.SUCCESSFUL_OPERATION)
+    msg.display_message("User details have been updated successfully", msg.INFO_MSG)
     # untested
 
 

@@ -111,7 +111,7 @@ class Ui_MainWindow(object):
             f.write(username)
             f.close()
             self.g_username = username
-            messages.display_message("the Log in details were updated successfully \n Make sure to remember them", messages.SUCCESSFUL_OPERATION)
+            messages.display_message("the Log in details were updated successfully \n Make sure to remember them", messages.INFO_MSG)
             
         else:
             messages.display_message("Check if all the fields have been filled with the correct information", messages.ERROR_MSG)
