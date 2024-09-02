@@ -57,7 +57,7 @@ class Ui_MainWindow(object):
         self.pwdUsername.setToolTip(_translate("MainWindow", "<html><head/><body><p>Enter Your Username</p></body></html>"))
         
     def login(self):
-        username = str(self.pwdUsername.text())
+        username = self.pwdUsername.text()
         password = self.pwdPassword.text()
         login_attempt_status = au.authenticate(username, password)
         #login_attempt_status = 1
@@ -77,8 +77,7 @@ class Ui_MainWindow(object):
             #pass
             print("Error duplicate creditials found in database. Guess I did not code this abomination correctly")
 
-
-if __name__ == "__main__":
+def launch():
     import sys
     from PyQt5.QtWidgets import QApplication
     app = QApplication(sys.argv)
@@ -88,3 +87,7 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+   launch() 

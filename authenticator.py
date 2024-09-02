@@ -50,15 +50,16 @@ def add_user(username, password):
     conn.close()
 
 
-def update_user(old_username, old_password, new_username, new_password):
-    sql_statement = f"UPDATE tblPasswords SET username = '{new_username}' AND password = '{new_password}' WHERE username = '{old_username}' AND password = '{old_password}'"
+def update_user(old_username, new_username, new_password):
+    sql_statement = f"UPDATE tblPasswords SET username = '{new_username}', password = '{new_password}' WHERE username = '{old_username}'"
+    print(sql_statement)
     conn, cursor = open_conn()
     cursor.execute(sql_statement)
     conn.commit()
     cursor.close()
     conn.close()
     print("Login Credintials updated successfully")
-    msg.display_message("User details have been updated successfully", msg.ERROR_MSG)
+    #msg.display_message("User details have been updated successfully", msg.SUCCESSFUL_OPERATION)
     # untested
 
 
