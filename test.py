@@ -1,3 +1,3 @@
-import math
-for i in range(0, 10):
-    print(i**2)
+import Transaction as t
+
+print(t.transaction_services().getTransactions())

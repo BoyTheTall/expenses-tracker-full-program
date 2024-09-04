@@ -22,3 +22,13 @@ def check_amount(amount):
         
 def check_date(date):
     NotImplemented
+    
+def check_username(username):
+    code = None
+    u = str(username)
+    if len(u) <= 4:
+        code = -1
+    else:
+        code = 1
+        
+    return code
