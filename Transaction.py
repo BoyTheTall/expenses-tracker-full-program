@@ -9,11 +9,11 @@ class transaction:
     transaction_id = None
     date = None
     
-    def __init__(self, transaction_id, amount, category, transaction_type, date):
+    def __init__(self, t_id, amount, category, transaction_type, date):
         self.transaction_type = transaction_type
         self.amount = amount
         self.category = category
-        self.transaction_id = transaction_id
+        self.transaction_id = t_id
         self.date = date
     
     def getTransactionType(self):

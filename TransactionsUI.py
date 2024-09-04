@@ -191,7 +191,7 @@ class Ui_MainWindow(object):
         for i in range(0, len(transactions_arr)):
             self.tblTransactions_2.insertRow(i)
 
-            self.tblTransactions_2.setItem(i, 0, QtWidgets.QTableWidgetItem(t_list[i].getTransactionId()))
+            self.tblTransactions_2.setItem(i, 0, QtWidgets.QTableWidgetItem(str(t_list[i].getTransactionId())))
             self.tblTransactions_2.setItem(i, 1, QtWidgets.QTableWidgetItem(t_list[i].getTransactionType()))
             self.tblTransactions_2.setItem(i, 2, QtWidgets.QTableWidgetItem(t_list[i].getDate()))
             self.tblTransactions_2.setItem(i, 3, QtWidgets.QTableWidgetItem(t_list[i].getCategory()))
