@@ -9,9 +9,12 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import Transaction
+import Transaction, messages
 
 class Ui_MainWindow(object):
+    t_services = Transaction.transaction_services()
+    transactions = [] #the length is used to check if it is empty or not through out this file
+    
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1069, 660)
@@ -140,7 +143,12 @@ class Ui_MainWindow(object):
         
         #added by me
         self.prepare_table()
-        self.populate_table(Transaction.transaction_services().getTransactions())
+        self.transactions = self.t_services.getExpenses()
+        self.populate_table(self.transactions)
+        self.btnSearch_2.clicked.connect(self.btnSearch_funtion)
+        self.cmbTransactionType.addItems(["expense", "income"])
+        self.cmbMode.activated.connect(self.mode_selection)
+        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -179,7 +187,7 @@ class Ui_MainWindow(object):
         self.actionReturn_to_Main_Menu.setText(_translate("MainWindow", "Return to Main Menu"))
         self.actionView_Total_Amount_in_Expenses.setText(_translate("MainWindow", "View Total Amount in Expenses"))
         self.actionView_Total_Amount_in_Income.setText(_translate("MainWindow", "View Total Amount in Income"))
-
+        
     def prepare_table(self):
         self.tblTransactions_2.setColumnCount(5)
         self.tblTransactions_2.setHorizontalHeaderLabels(["Transaction_ID", "Transaction Type", "Date", "Category", "Amount"])
@@ -187,6 +195,7 @@ class Ui_MainWindow(object):
             self.tblTransactions_2.setColumnWidth(i, 164)
             
     def populate_table(self, transactions_arr):
+        self.tblTransactions_2.setRowCount(0)#clearing the table
         t_list = list(transactions_arr)
         for i in range(0, len(transactions_arr)):
             self.tblTransactions_2.insertRow(i)
@@ -197,8 +206,72 @@ class Ui_MainWindow(object):
             self.tblTransactions_2.setItem(i, 3, QtWidgets.QTableWidgetItem(t_list[i].getCategory()))
             self.tblTransactions_2.setItem(i, 4, QtWidgets.QTableWidgetItem(str(t_list[i].getAmount())))
             
-                
+    def add_transactions(self):
+        None
+        
+    def fetch_transactions(self):
+        search_by_category = self.chkboxCategory.isChecked()
+        search_by_transaction_type = self.chkboxTransactionType.isChecked()
+        search_by_specific_date = self.radSpecificDate.isChecked()
+        search_by_month_and_year = self.radMonthYear.isChecked()
+        
+        t_id = None
+        date = None
+        category = None
+        t_type = None
+        
+        if search_by_category == True:
+            category = self.cmbCategory.currentText()
+        if search_by_transaction_type == True:
+            t_type = self.cmbTransactionType.currentText()
+        if search_by_specific_date ==True:
+            date = self.dtSpecificDate.text()
+        if search_by_month_and_year == True:
+            date = self.cmbMonth.text() + '-' + self.txtYear.text()
+        
+        self.transactions = self.t_services.getTransactions(t_id, date, category, t_type)
+        if(len(self.transactions) >= 1):
+            self.tblTransactions_2.setRowCount(0)
+            self.populate_table(self.transactions)
+        else:
+            message = "No Transactions that meet the search criteria were found"
+            title = "Operation Failed"
+            messages.display_message(message, title, messages.ERROR_MSG)
+    
+    def clear_table(self):
+        self.tblTransactions_2.setRowCount(0)
+    
+    def mode_selection(self):
+        if self.cmbMode.currentText() == "Add Transaction":
+            self.clear_table()        
+            self.btnSearch_2.setText("Insert New Blank Row")
+            self.btnUpdate.setText("Clear Current Row")
+            self.btnDelete.setText("Delete Row")
+            
+                     
+        else:
+            self.btnSearch_2.setText("Search")
+            self.btnUpdate.setText("Update")
+            self.btnDelete.setText("Delete")
+            
+            message = "Do you want to load the previous transactions?"
+            title = "Load Previous Transactions"
+            
+            if len(self.transactions) >= 1:
+                r = messages.display_option_message(message, title, messages.INFO_MSG)
+                if r == True:
+                    self.populate_table(self.transactions)
 
+    def btnSearch_funtion(self):
+        if self.cmbMode.currentText() == "Add Transaction":
+            #in this case the button will be in insert empty row mode
+            position = self.tblTransactions_2.rowCount()
+            self.tblTransactions_2.insertRow(position)
+            self.tblTransactions_2.setItem(position, 0, QtWidgets.QTableWidgetItem(str(Transaction.generate_ID())))
+        else:
+            #button will be in search mode
+            self.fetch_transactions()
+            
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

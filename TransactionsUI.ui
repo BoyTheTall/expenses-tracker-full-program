@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1069</width>
+    <height>660</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="formLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>1051</width>
+      <height>601</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="13" column="2">
+      <widget class="QRadioButton" name="radSpecificDate">
+       <property name="maximumSize">
+        <size>
+         <width>200</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Specific Date</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="lblYear">
+       <property name="text">
+        <string>Year</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="2">
+      <widget class="QLineEdit" name="txtYear">
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="6">
+      <widget class="QPushButton" name="btnSearch_2">
+       <property name="maximumSize">
+        <size>
+         <width>250</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Search</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="2">
+      <widget class="QCheckBox" name="chkboxCategory">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Category</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QDateEdit" name="dtSpecificDate">
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="displayFormat">
+        <string>dd-mm-yyyy</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QComboBox" name="cmbTransactionType">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0">
+      <widget class="QLabel" name="lblSearchBy">
+       <property name="text">
+        <string>Search By:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QComboBox" name="cmbCategory">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblTransactionType">
+       <property name="text">
+        <string>Transaction Type</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QComboBox" name="cmbMonth">
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <item>
+        <property name="text">
+         <string>January</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>February</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>March</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>April</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>May</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>June</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>July</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>August</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>September</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>October</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>November</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>December</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="10" column="2">
+      <widget class="QCheckBox" name="chkboxTransactionType">
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Transaction Type</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="lblMonth">
+       <property name="text">
+        <string>Month</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblCategory">
+       <property name="text">
+        <string>Category</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="lblDate">
+       <property name="text">
+        <string>Date (dd-mm-yyyy)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="14" column="2">
+      <widget class="QRadioButton" name="radMonthYear">
+       <property name="text">
+        <string>Month and Year</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="6">
+      <widget class="QPushButton" name="btnUpdate">
+       <property name="text">
+        <string>Update</string>
+       </property>
+      </widget>
+     </item>
+     <item row="13" column="6">
+      <widget class="QPushButton" name="btnDelete">
+       <property name="text">
+        <string>Delete</string>
+       </property>
+      </widget>
+     </item>
+     <item row="14" column="6">
+      <widget class="QPushButton" name="btnAddTransaction_2">
+       <property name="text">
+        <string>Add</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="6">
+      <widget class="QLabel" name="lblMode">
+       <property name="text">
+        <string>Mode</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="6">
+      <widget class="QComboBox" name="cmbMode">
+       <item>
+        <property name="text">
+         <string>View/Update/Delete</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Add Transaction</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="9" column="2">
+      <widget class="QTableWidget" name="tblTransactions_2"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1069</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuMenu">
+    <property name="title">
+     <string>Menu</string>
+    </property>
+    <addaction name="actionReturn_to_Main_Menu"/>
+    <addaction name="actionView_Total_Amount_in_Expenses"/>
+    <addaction name="actionView_Total_Amount_in_Income"/>
+   </widget>
+   <addaction name="menuMenu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionReturn_to_Main_Menu">
+   <property name="text">
+    <string>Return to Main Menu</string>
+   </property>
+  </action>
+  <action name="actionView_Total_Amount_in_Expenses">
+   <property name="text">
+    <string>View Total Amount in Expenses</string>
+   </property>
+  </action>
+  <action name="actionView_Total_Amount_in_Income">
+   <property name="text">
+    <string>View Total Amount in Income</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

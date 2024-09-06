@@ -1,7 +1,4 @@
 import LoginUI
-import login_detailsUI
-#import Validator as v
+import messages
 
-#print(v.check_username(5))
-LoginUI.launch()
-login_detailsUI.launch()
+messages.display_option_message("Cheese", messages.INFO_MSG)
