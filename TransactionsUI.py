@@ -148,7 +148,8 @@ class Ui_MainWindow(object):
         self.btnSearch_2.clicked.connect(self.btnSearch_funtion)
         self.cmbTransactionType.addItems(["expense", "income"])
         self.cmbMode.activated.connect(self.mode_selection)
-        
+        self.btnAddTransaction_2.clicked.connect(self.btnAdd_function)
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -187,12 +188,14 @@ class Ui_MainWindow(object):
         self.actionReturn_to_Main_Menu.setText(_translate("MainWindow", "Return to Main Menu"))
         self.actionView_Total_Amount_in_Expenses.setText(_translate("MainWindow", "View Total Amount in Expenses"))
         self.actionView_Total_Amount_in_Income.setText(_translate("MainWindow", "View Total Amount in Income"))
+
         
     def prepare_table(self):
         self.tblTransactions_2.setColumnCount(5)
         self.tblTransactions_2.setHorizontalHeaderLabels(["Transaction_ID", "Transaction Type", "Date", "Category", "Amount"])
         for i in range(0, 5):
             self.tblTransactions_2.setColumnWidth(i, 164)
+
             
     def populate_table(self, transactions_arr):
         self.tblTransactions_2.setRowCount(0)#clearing the table
@@ -205,10 +208,53 @@ class Ui_MainWindow(object):
             self.tblTransactions_2.setItem(i, 2, QtWidgets.QTableWidgetItem(t_list[i].getDate()))
             self.tblTransactions_2.setItem(i, 3, QtWidgets.QTableWidgetItem(t_list[i].getCategory()))
             self.tblTransactions_2.setItem(i, 4, QtWidgets.QTableWidgetItem(str(t_list[i].getAmount())))
+
             
     def add_transactions(self):
-        None
+        transactions_to_be_added = self.getTransactions_from_table()
         
+        if(len(transactions_to_be_added) == 0):
+            message = "There are no transactions entered. Please enter at least one transaction"
+            title = "Error :("
+            messages.display_message(message, title, messages.ERROR_MSG)
+        
+        else:
+            message = """Are you sure you want to add these?, Please Make sure all details are correct
+                        searching by criteria  just to fix one is gonna be a pain unless you know the transaction ID"""
+            title = "Mmmmmmm"
+            add_transactions_to_database = messages.display_option_message(message, title)
+            if (add_transactions_to_database == True):
+                for i in range(0, len(transactions_to_be_added)):
+                    self.t_services.add_transaction(transactions_to_be_added[i])
+                message = "Transactions added successfully"
+                title = "yay :)"
+                messages.display_message(message, title, messages.INFO_MSG)
+            else:
+                message = "Do you wish to restore the previous list of transactions?"
+                title = "Do you though?"
+                restore_flag = messages.display_option_message(message, title)
+                if restore_flag ==  True:
+                    self.populate_table(self.transactions)
+                else:
+                    self.clear_table()
+
+   
+    def getTransactions_from_table(self):
+        
+        number_of_transactions = self.tblTransactions_2.rowCount()
+        transactions = []
+        for i in range(0, number_of_transactions):
+            transaction_id = str(self.tblTransactions_2.item(i, 0))
+            transaction_type = str(self.tblTransactions_2.item(i, 1))
+            t_date = str(self.tblTransactions_2.item(i, 2))
+            category = str(self.tblTransactions_2.item(i, 3))
+            amount = float(self.tblTransactions_2.item(i, 4))
+            transaction_t = Transaction.transaction(transaction_id, amount, category, transaction_type, t_date)
+            transactions.append(transaction_t)
+            
+        return transactions
+
+                
     def fetch_transactions(self):
         search_by_category = self.chkboxCategory.isChecked()
         search_by_transaction_type = self.chkboxTransactionType.isChecked()
@@ -237,9 +283,11 @@ class Ui_MainWindow(object):
             message = "No Transactions that meet the search criteria were found"
             title = "Operation Failed"
             messages.display_message(message, title, messages.ERROR_MSG)
+
     
     def clear_table(self):
         self.tblTransactions_2.setRowCount(0)
+
     
     def mode_selection(self):
         if self.cmbMode.currentText() == "Add Transaction":
@@ -262,6 +310,7 @@ class Ui_MainWindow(object):
                 if r == True:
                     self.populate_table(self.transactions)
 
+
     def btnSearch_funtion(self):
         if self.cmbMode.currentText() == "Add Transaction":
             #in this case the button will be in insert empty row mode
@@ -271,7 +320,16 @@ class Ui_MainWindow(object):
         else:
             #button will be in search mode
             self.fetch_transactions()
-            
+
+    def btnAdd_function(self):
+        if self.cmbMode.currentText() == "Add Transaction":
+            self.add_transactions()
+        
+        else:
+            message = "Functionality of this button is disabled in this mode"
+            title = "oopsie *_*"
+            messages.display_message(message, title, messages.INFO_MSG)
+    
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

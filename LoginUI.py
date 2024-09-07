@@ -12,6 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import authenticator as au
 import messages as msg
 import login_detailsUI
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -61,21 +62,26 @@ class Ui_MainWindow(object):
         username = self.pwdUsername.text()
         password = self.pwdPassword.text()
         login_attempt_status = au.authenticate(username, password)
-        #login_attempt_status = 1
+    
         if login_attempt_status == 0:
-            msg.display_message("Error, invalid credentials entered", msg.ERROR_MSG)
+            message = "Error, invalid credentials entered"
+            title = "Credentials Error >:("
+            msg.display_message(message, title, msg.ERROR_MSG)
             
             
         if login_attempt_status == 1:
-            msg.display_message(f"Welcome {username}", msg.INFO_MSG)
+            message = f"Welcome {username}"
+            title = "Hello :)"
+            msg.display_message(message, title, msg.INFO_MSG)
             f = open("current session.txt", "w")
             f.write(username)
             f.close()
             
-            
-            
+                    
         if login_attempt_status == 2:
-            msg.display_message("Error duplicate creditials found in database. Guess I did not code this abomination correctly", msg.ERROR_MSG)
+            message = "Error duplicate creditials found in database. Guess I did not code this abomination correctly"
+            title = "Login Error :("
+            msg.display_message(message, title, msg.ERROR_MSG)
             
 
 def launch():

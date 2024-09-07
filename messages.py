@@ -15,7 +15,7 @@ def display_message(message, title, message_type):
 
     msg.exec_()
 
-def display_option_message(message, title, type_of_dialog):
+def display_option_message(message, title, type_of_dialog=None):
     msg = QtWidgets.QMessageBox()
     msg.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
     msg.setWindowTitle(title)
