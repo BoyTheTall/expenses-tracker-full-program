@@ -117,55 +117,43 @@ class transaction_services:
         transaction_t = transaction(t_id, amount, category, transaction_type, date)
         return transaction_t
     
-    #this will be for getting all transactions unless a parameter is passed
-    #please dont use this with 2 valid parameters it will break, i promise I will fix it after an update later but I likely won't
-    #this might end up confusing me later on so i might use the get transaction function when I am looking for a specifc one
+    #needs to be tested
     def getTransactions(self, t_id=None, date=None, category=None, t_type= None):
-        #get all the transactions since no parameter was passed
-        if t_id==None and date==None and category==None and t_type == None:
-            sql_statement = "SELECT * FROM transactions"
-            result_set = self.cursor.execute(sql_statement)
-            result_set = list(result_set.fetchall())
-            transactions = tranverse_result_set(result_set=result_set)
-            return transactions
         
-        #this will use the transaction id which will return one transaction object
-        elif t_id != None and date == None and category == None and t_type == None:
-            sql_statement = f"SELECT * FROM transactions WHERE transaction_id = {t_id}"
-            result_set = self.cursor.execute(sql_statement)
-            result_set = list(result_set.fetchall())
-            transaction = tranverse_result_set(result_set=result_set)[0]#I am hard coding this because I am lazy
-            return transaction
-            
-        elif t_id == None and date != None and category == None and t_type == None:
-            sql_statement = f"SELECT * FROM transactions WHERE date = '{date}'"
-            result_set = self.cursor.execute(sql_statement)
-            result_set = list(result_set.fetchall())
-            transactions = tranverse_result_set(result_set=result_set)
-            return transactions
+        sql = "SELECT * FROM transactions"
+        parameter_added = False
+        if t_id != None:
+            if parameter_added == False:
+                sql += f" WHERE transaction_id = {t_id}"
+                parameter_added = True
+            else:
+                sql += f" AND transaction_id = {t_id}"
                 
-        elif t_id == None and date == None and category != None and t_type == None:
-            sql_statement = f"SELECT * FROM transactions WHERE Category = '{category}'"
-            result_set = self.cursor.execute(sql_statement)
-            result_set = list(result_set.fetchall())
-            transactions = tranverse_result_set(result_set=result_set)
-            return transactions
-            
-        elif t_id == None and date == None and category == None and t_type != None:
-            sql_statement = f"SELECT * FROM transactions WHERE transaction_type = '{t_type}'"
-            result_set = self.cursor.execute(sql_statement)
-            result_set = list(result_set.fetchall())
-            transactions = tranverse_result_set(result_set=result_set)
-            return transactions
-        #too much copy and paste I will change the this as soon as I figure out how to make it work without it shitting itself
+        if date != None:
+            if parameter_added == False:
+                sql += f" WHERE Date = '{date}'"
+                parameter_added = True
+            else:
+                sql += f" AND Date = '{date}'"
         
-        #assuming that only the transaction id is missing, multiple results can be possible hence I am going to retun a list
-        else:
-            sql_statement = f"SELECT * FROM transactions WHERE date = '{date}' AND category = '{category}' AND transaction_type = '{t_type}'"
-            result_set = self.cursor.execute(sql_statement)
-            results_list = list(result_set.fetchall())
-            transactions = tranverse_result_set(result_set= results_list)
-            return transactions
+        if category != None:
+            if parameter_added == False:
+                sql += f" WHERE Category = '{category}'"
+                parameter_added = True
+            else:
+                sql += f" AND Category = '{category}'"
+        
+        if t_type != None:
+            if parameter_added == False:
+                sql += f" WHERE Transaction_Type = '{t_type}'"
+                parameter_added = True
+            else:
+                sql += f" AND Transaction_Type = '{t_type}'"
+        
+        result_set = self.cursor.execute(sql)
+        result_set = list(result_set.fetchall())
+        transactions = tranverse_result_set(result_set=result_set)
+        return transactions
         
             
     #this will assume that the things to update is already in the state of the transaction object, the transaction id will never change
@@ -175,8 +163,13 @@ class transaction_services:
                 WHERE transaction_id = {transaction_t.getTransactionId()}"""
         self.cursor.execute(sql_statement)
         self.db_conn.commit()
+    
+    def delete_transaction(self, t_id):
+        sql = f"""DELETE FROM tblTransactions WHERE transaction_id = {t_id}"""
+        self.cursor.execute(sql)
+        self.db_conn.commit()
         
-        
+
 def generate_ID():
     db_id = int(time.time() + random.randint(0, int(time.time())))
     return db_id
