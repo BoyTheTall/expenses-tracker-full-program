@@ -28,7 +28,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.cmbTransactionType.addItems(["expense", "income"])
         self.cmbMode.activated.connect(self.mode_selection)
         self.btnAddTransaction_2.clicked.connect(self.btnAdd_function)
-
+        self.btnDelete.clicked.connect(self.btnDelete_Function)
 
         
     def prepare_table(self):
@@ -61,7 +61,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         
         else:
             message = """Are you sure you want to add these?, Please Make sure all details are correct
-                        searching by criteria  just to fix one is gonna be a pain unless you know the transaction ID"""
+                 searching by criteria  just to fix one is gonna be a pain unless you know the transaction ID"""
             title = "Mmmmmmm"
             add_transactions_to_database = messages.display_option_message(message, title)
             if (add_transactions_to_database == True):
@@ -85,11 +85,11 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         number_of_transactions = self.tblTransactions_2.rowCount()
         transactions = []
         for i in range(0, number_of_transactions):
-            transaction_id = str(self.tblTransactions_2.item(i, 0))
-            transaction_type = str(self.tblTransactions_2.item(i, 1))
-            t_date = str(self.tblTransactions_2.item(i, 2))
-            category = str(self.tblTransactions_2.item(i, 3))
-            amount = float(self.tblTransactions_2.item(i, 4))
+            transaction_id = str(self.tblTransactions_2.item(i, 0).text())
+            transaction_type = str(self.tblTransactions_2.item(i, 1).text())
+            t_date = str(self.tblTransactions_2.item(i, 2).text())
+            category = str(self.tblTransactions_2.item(i, 3).text())
+            amount = float(self.tblTransactions_2.item(i, 4).text())
             transaction_t = Transaction.transaction(transaction_id, amount, category, transaction_type, t_date)
             transactions.append(transaction_t)
             
@@ -170,7 +170,42 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             message = "Functionality of this button is disabled in this mode"
             title = "oopsie *_*"
             messages.display_message(message, title, messages.INFO_MSG)
-    
+
+    def btnDelete_Function(self):
+        if self.cmbMode.currentText() == "Add Transaction":
+            #removes the selected rows in this mode
+            highlighted_rows = self.tblTransactions_2.selectedIndexes()
+            for i in range(0, len(highlighted_rows)):
+                self.tblTransactions_2.removeRow(highlighted_rows[i].row())
+                
+        else:
+            transactions_to_be_deleted = self.getHighlightedTransactions()
+            for i in range(0, len(transactions_to_be_deleted)):
+                print(transactions_to_be_deleted[i].toString())
+                
+        
+    def getHighlightedTransactions(self):
+        selected_table_indexes = self.tblTransactions_2.selectedIndexes()
+        highlighted_transactions = []
+        for i in range(0, len(selected_table_indexes)):
+            current_row = selected_table_indexes[i].row()
+            
+            transaction_id = self.tblTransactions_2.item(current_row, 0).text()
+            transaction_type = self.tblTransactions_2.item(current_row, 1).text()
+            t_date = self.tblTransactions_2.item(current_row, 2).text()
+            category = self.tblTransactions_2.item(current_row, 3).text()
+            amount = float(self.tblTransactions_2.item(current_row, 4).text())
+            transaction_t = Transaction.transaction(transaction_id, amount, category, transaction_type, t_date)
+            highlighted_transactions.append(transaction_t)
+      
+        return highlighted_transactions
+ 
+    def delete_transactions_function(self):
+        transactions_to_be_deleted = self.getHighlightedTransactions()
+        self.t_services.delete_multiple_transactions(transaction_list=transactions_to_be_deleted)
+        messages.display_message(message="Delete operation successful", title="They're gone :/", message_type=messages.INFO_MSG)
+ 
+        
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

@@ -164,11 +164,15 @@ class transaction_services:
         self.cursor.execute(sql_statement)
         self.db_conn.commit()
     
+    #this wont be called by external code because the delete_multiple transactions can provide the same functionality of deleting one function
     def delete_transaction(self, t_id):
         sql = f"""DELETE FROM tblTransactions WHERE transaction_id = {t_id}"""
         self.cursor.execute(sql)
         self.db_conn.commit()
-        
+    
+    def delete_multiple_transactions(self, transaction_list):
+        for i in range(0, len(transaction_list)):
+            self.delete_transaction(transaction_list[i].getTransactionID())
 
 def generate_ID():
     db_id = int(time.time() + random.randint(0, int(time.time())))
