@@ -19,6 +19,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(Ui_MainWindow, self).__init__()
         uic.loadUi('TransactionsUI.ui', self)
+        self.setWindowIcon(QtGui.QIcon("icon.png"))
         self.show()
         
         #added by me
@@ -276,7 +277,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             self.tblTransactions_2.setItem(indexes[i].row(), 3, QtWidgets.QTableWidgetItem(None))
             self.tblTransactions_2.setItem(indexes[i].row(), 4, QtWidgets.QTableWidgetItem(None))
         messages.display_message(message="Cleared Succesfully", title="It's done boss", message_type=messages.INFO_MSG)
-# I have to make something that takes a list of the changed transactions and use that when calling the update function because updating everything will be inefficient  
+    
+    # I have to make something that takes a list of the changed transactions and use that when calling the update function because updating everything will be inefficient  
     def on_item_edited(self, item):
         if self.cmbMode.currentText() == "Add Transaction":
             None
