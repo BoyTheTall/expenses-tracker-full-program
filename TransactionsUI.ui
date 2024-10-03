@@ -24,19 +24,6 @@
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
-     <item row="13" column="2">
-      <widget class="QRadioButton" name="radSpecificDate">
-       <property name="maximumSize">
-        <size>
-         <width>200</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Specific Date</string>
-       </property>
-      </widget>
-     </item>
      <item row="5" column="0">
       <widget class="QLabel" name="lblYear">
        <property name="text">
@@ -231,13 +218,6 @@
        </property>
       </widget>
      </item>
-     <item row="14" column="2">
-      <widget class="QRadioButton" name="radMonthYear">
-       <property name="text">
-        <string>Month and Year</string>
-       </property>
-      </widget>
-     </item>
      <item row="12" column="6">
       <widget class="QPushButton" name="btnUpdate">
        <property name="text">
@@ -282,6 +262,26 @@
      </item>
      <item row="9" column="2">
       <widget class="QTableWidget" name="tblTransactions_2"/>
+     </item>
+     <item row="13" column="2">
+      <widget class="QCheckBox" name="chkSpecificDate">
+       <property name="maximumSize">
+        <size>
+         <width>200</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Specific Date</string>
+       </property>
+      </widget>
+     </item>
+     <item row="14" column="2">
+      <widget class="QCheckBox" name="chkMonthYear">
+       <property name="text">
+        <string>Month and Year</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>

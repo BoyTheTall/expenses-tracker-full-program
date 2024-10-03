@@ -12,6 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets, uic
 import Transaction, messages
 
 class Ui_MainWindow(QtWidgets.QMainWindow):
+    rows_to_be_updated= []
     t_services = Transaction.transaction_services()
     transactions = [] #the length is used to check if it is empty or not through out this file
     
@@ -21,15 +22,23 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.show()
         
         #added by me
+        #functions that need to prepare data or load UI elements with their data
         self.prepare_table()
         self.transactions = self.t_services.getExpenses()
         self.populate_table(self.transactions)
-        self.btnSearch_2.clicked.connect(self.btnSearch_funtion)
         self.cmbTransactionType.addItems(["expense", "income"])
-        self.cmbMode.activated.connect(self.mode_selection)
+        
+        #Buttons
         self.btnAddTransaction_2.clicked.connect(self.btnAdd_function)
         self.btnDelete.clicked.connect(self.btnDelete_Function)
-
+        self.btnUpdate.clicked.connect(self.btnUpdate_Function)
+        self.btnSearch_2.clicked.connect(self.btnSearch_funtion)
+        
+        #other types of UI that need to have some form of functions
+        self.chkSpecificDate.clicked.connect(self.date_search_type_specific_date)
+        self.chkMonthYear.clicked.connect(self.date_search_month_year_type)
+        self.cmbMode.activated.connect(self.mode_selection)
+        self.tblTransactions_2.itemChanged.connect(self.on_item_edited)
         
     def prepare_table(self):
         self.tblTransactions_2.setColumnCount(5)
@@ -179,10 +188,38 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                 self.tblTransactions_2.removeRow(highlighted_rows[i].row())
                 
         else:
-            transactions_to_be_deleted = self.getHighlightedTransactions()
-            for i in range(0, len(transactions_to_be_deleted)):
-                print(transactions_to_be_deleted[i].toString())
-                
+            self.delete_transactions_function()
+    
+    def btnUpdate_Function(self):
+        if self.cmbMode.currentText() == "Add Transaction":
+            self.clear_rows()
+        
+        else:
+            confirm_actions = messages.display_option_message("are you sure you want to do this?", "mmmmm :|")
+            if confirm_actions == True:
+                transactions_to_be_updated = self.get_specified_transactions()
+                if len(transactions_to_be_updated) == 0:
+                    message = "Error, no changes were made to any transactions. Update cannot be done"
+                    title = "Error"
+                    messages.display_message(message, title, messages.ERROR_MSG)
+                else:
+                    for i in range(0, len(transactions_to_be_updated)):
+                        self.t_services.update_transaction(transactions_to_be_updated[i])
+            
+                    message = "Transactions updated successfully :)"
+                    title = "Done :)"
+                    messages.display_message(message=message, title=title, message_type=messages.INFO_MSG)
+            else:
+                message = "Load previous Transactions? This will remove all the changes you have made."
+                title = "are you sure"
+                load_previous_transactions = messages.display_option_message(message, title)
+                if load_previous_transactions == True:
+                    self.populate_table(self.transactions)
+                    message = "transactions loaded successfully"
+                    title = "it is done"
+                    messages.display_message(message, title, messages.INFO_MSG)
+                else:
+                    messages.display_message("Your changes were kept, these were not saved we just didnt revert to the previous loaded list", "Ok", messages.INFO_MSG) 
         
     def getHighlightedTransactions(self):
         selected_table_indexes = self.tblTransactions_2.selectedIndexes()
@@ -201,11 +238,58 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         return highlighted_transactions
  
     def delete_transactions_function(self):
-        transactions_to_be_deleted = self.getHighlightedTransactions()
-        self.t_services.delete_multiple_transactions(transaction_list=transactions_to_be_deleted)
-        messages.display_message(message="Delete operation successful", title="They're gone :/", message_type=messages.INFO_MSG)
- 
+        message = "are you sure you want to delete the selected transaction(s)?"
+        title  = "mmmmmmm :|"
         
+        action_confirmation = messages.display_option_message(message, title)
+        if action_confirmation == True:
+            transactions_to_be_deleted = self.getHighlightedTransactions()
+            self.t_services.delete_multiple_transactions(transaction_list=transactions_to_be_deleted)
+            messages.display_message(message="Delete operation successful", title="They're gone :/", message_type=messages.INFO_MSG)
+        
+        else:
+            message = "Action cancelled"
+            title = "Info"
+            messages.display_message(message, title, messages.INFO_MSG)
+    
+    def date_search_type_specific_date(self):
+        self.chkMonthYear.setChecked(False)
+    
+    def date_search_month_year_type(self):
+        self.chkSpecificDate.setChecked(False)
+    
+    def clear_rows(self):
+        indexes = self.tblTransactions_2.selectedIndexes()
+        for i in range(0, len(indexes)):
+            self.tblTransactions_2.setItem(indexes[i].row(), 1,QtWidgets.QTableWidgetItem(None))
+            self.tblTransactions_2.setItem(indexes[i].row(), 2, QtWidgets.QTableWidgetItem(None))
+            self.tblTransactions_2.setItem(indexes[i].row(), 3, QtWidgets.QTableWidgetItem(None))
+            self.tblTransactions_2.setItem(indexes[i].row(), 4, QtWidgets.QTableWidgetItem(None))
+        messages.display_message(message="Cleared Succesfully", title="It's done boss", message_type=messages.INFO_MSG)
+# I have to make something that takes a list of the changed transactions and use that when calling the update function because updating everything will be inefficient  
+    def on_item_edited(self, item):
+        if self.cmbMode.currentText() == "Add Transaction":
+            None
+        else:
+            row = item.row()
+            self.rows_to_be_updated.append(row)
+            print(row)
+              
+    def get_specified_transactions(self):
+        rows_list = list(set(self.rows_to_be_updated))
+        self.rows_to_be_updated = [] #clearing the global list of variables
+        specified_transactions = []
+        for i in range (0, len(rows_list)):
+            current_row = rows_list[i]
+            transaction_id = self.tblTransactions_2.item(current_row, 0).text()
+            transaction_type = self.tblTransactions_2.item(current_row, 1).text()
+            t_date = self.tblTransactions_2.item(current_row, 2).text()
+            category = self.tblTransactions_2.item(current_row, 3).text()
+            amount = float(self.tblTransactions_2.item(current_row, 4).text())
+            transaction_t = Transaction.transaction(transaction_id, amount, category, transaction_type, t_date)
+            specified_transactions.append(transaction_t)
+        return specified_transactions
+           
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
