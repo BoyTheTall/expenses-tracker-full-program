@@ -39,14 +39,15 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.chkMonthYear.clicked.connect(self.date_search_month_year_type)
         self.cmbMode.activated.connect(self.mode_selection)
         self.tblTransactions_2.itemChanged.connect(self.on_item_edited)
-        
+    
+    #adds the columns of the table ui element and sets the appropriate sizes of the columns    
     def prepare_table(self):
         self.tblTransactions_2.setColumnCount(5)
         self.tblTransactions_2.setHorizontalHeaderLabels(["Transaction_ID", "Transaction Type", "Date", "Category", "Amount"])
         for i in range(0, 5):
             self.tblTransactions_2.setColumnWidth(i, 164)
 
-            
+   #displays whatever transactions are in the list specified         
     def populate_table(self, transactions_arr):
         self.tblTransactions_2.setRowCount(0)#clearing the table
         t_list = list(transactions_arr)
@@ -59,7 +60,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             self.tblTransactions_2.setItem(i, 3, QtWidgets.QTableWidgetItem(t_list[i].getCategory()))
             self.tblTransactions_2.setItem(i, 4, QtWidgets.QTableWidgetItem(str(t_list[i].getAmount())))
 
-            
+    #this saves the new transactions into the backend
     def add_transactions(self):
         transactions_to_be_added = self.getTransactions_from_table()
         
@@ -88,7 +89,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                 else:
                     self.clear_table()
 
-   
+    #gets all the transactions that are in the table ui element, will be used in in the add transactions mode mostly
     def getTransactions_from_table(self):
         
         number_of_transactions = self.tblTransactions_2.rowCount()
@@ -104,7 +105,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             
         return transactions
 
-                
+    #fetches the list of transactions that meet the specified parameters
     def fetch_transactions(self):
         search_by_category = self.chkboxCategory.isChecked()
         search_by_transaction_type = self.chkboxTransactionType.isChecked()
@@ -134,11 +135,12 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             title = "Operation Failed"
             messages.display_message(message, title, messages.ERROR_MSG)
 
-    
+    #removes all transactions in the table ui element
     def clear_table(self):
         self.tblTransactions_2.setRowCount(0)
 
-    
+    #this provides the functionality of the ui element repsonsible for choosing the mode that the screen is in and makes the changes
+    #to the labels and button texts that show the user the mode and functionality each element has
     def mode_selection(self):
         if self.cmbMode.currentText() == "Add Transaction":
             self.clear_table()        
@@ -160,7 +162,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                 if r == True:
                     self.populate_table(self.transactions)
 
-
+    #this is the function that will be linked to the search button and will choose the appropriate function depending on the mode
     def btnSearch_funtion(self):
         if self.cmbMode.currentText() == "Add Transaction":
             #in this case the button will be in insert empty row mode
@@ -171,6 +173,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             #button will be in search mode
             self.fetch_transactions()
 
+    #this is the function that will be linked to the add transaction button and will choose the appropriate function depending on the mode
     def btnAdd_function(self):
         if self.cmbMode.currentText() == "Add Transaction":
             self.add_transactions()
@@ -180,6 +183,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             title = "oopsie *_*"
             messages.display_message(message, title, messages.INFO_MSG)
 
+    #this is the function that will be linked to the delete button and will choose the appropriate function depending on the mode
     def btnDelete_Function(self):
         if self.cmbMode.currentText() == "Add Transaction":
             #removes the selected rows in this mode
@@ -189,7 +193,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                 
         else:
             self.delete_transactions_function()
-    
+            
+    #this is the function that will be linked to the update button and will choose the appropriate function depending on the mode
     def btnUpdate_Function(self):
         if self.cmbMode.currentText() == "Add Transaction":
             self.clear_rows()
@@ -220,7 +225,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                     messages.display_message(message, title, messages.INFO_MSG)
                 else:
                     messages.display_message("Your changes were kept, these were not saved we just didnt revert to the previous loaded list", "Ok", messages.INFO_MSG) 
-        
+   
+    #this gets the transactions selected by the user      
     def getHighlightedTransactions(self):
         selected_table_indexes = self.tblTransactions_2.selectedIndexes()
         highlighted_transactions = []
@@ -237,6 +243,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
       
         return highlighted_transactions
  
+    #this contains the logic for actually deleting transactions in the UI including all the confirmations and roll backs
     def delete_transactions_function(self):
         message = "are you sure you want to delete the selected transaction(s)?"
         title  = "mmmmmmm :|"
@@ -252,12 +259,15 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             title = "Info"
             messages.display_message(message, title, messages.INFO_MSG)
     
+    #this deselects the other check box when the search by specific date checkbox is clicked
     def date_search_type_specific_date(self):
         self.chkMonthYear.setChecked(False)
     
+    #this deselects the other check box when the search by month and yearc heckbox is clicked
     def date_search_month_year_type(self):
         self.chkSpecificDate.setChecked(False)
     
+    #this function clears the selected transactions (the highlighted ones), mostly used in add transaction mode
     def clear_rows(self):
         indexes = self.tblTransactions_2.selectedIndexes()
         for i in range(0, len(indexes)):
@@ -274,7 +284,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             row = item.row()
             self.rows_to_be_updated.append(row)
             print(row)
-              
+    
+    #This one gets the transactions  that are specified by a set of rows instead of getting the highlighted transactions          
     def get_specified_transactions(self):
         rows_list = list(set(self.rows_to_be_updated))
         self.rows_to_be_updated = [] #clearing the global list of variables
