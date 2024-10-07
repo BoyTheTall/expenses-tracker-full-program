@@ -11,6 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 import Transaction, messages
 
+
 class Ui_MainWindow(QtWidgets.QMainWindow):
     rows_to_be_updated= []
     t_services = Transaction.transaction_services()

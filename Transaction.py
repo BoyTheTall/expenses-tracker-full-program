@@ -1,6 +1,8 @@
+from re import split
 import sqlite3
 import random
 import time
+import datetime
 
 class transaction:
     transaction_type = None #for denoting if it is an expense or income. I will have to use data validation to check if it is one of two values
@@ -10,12 +12,17 @@ class transaction:
     date = None
     
     def __init__(self, t_id, amount, category, transaction_type, date):
+        #the date will use / as a separator and in the format dd/mm/yyyy
+        split_date = date.split("/")
+        year = int(split_date[2])
+        month = int(split_date[1])
+        day = int(split_date[0])
         self.transaction_type = transaction_type
         self.amount = amount
         self.category = category
         self.transaction_id = t_id
-        self.date = date
-    
+        self.date = datetime.date(year, month, day)
+            
     def getTransactionType(self):
         return self.transaction_type
     
@@ -28,8 +35,9 @@ class transaction:
     def getCategory(self):
         return self.category
     
+    #this will return a string because that is what the rest of the architecture expects
     def getDate(self):
-        return self.date
+        return self.date.strftime("%d") + "/" + self.date.strftime("%m") + "/" + self.date.strftime("%Y")
         
     def setTransactionType(self, transaction_type):
         self.transaction_type = transaction_type
@@ -44,7 +52,11 @@ class transaction:
         self.category = category
     
     def setDate(self, date):
-        self.date = date
+        split_date = date.split("/")
+        year = int(split_date[2])
+        month = int(split_date[1])
+        day = int(split_date[0])
+        self.date = datetime.date(year, month, day)
         
     def toString(self):
         t_string  = f"""

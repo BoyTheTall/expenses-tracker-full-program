@@ -1,0 +1,10 @@
+Data types: Ensure that inputs are of the correct type (e.g., numbers for amounts, strings for descriptions).
+Value ranges: Validate that numerical inputs fall within expected ranges (e.g., no negative amounts for income).
+Duplicate entries: As you mentioned, checking for duplicates can prevent clutter and errors in your database.
+
+additional features:
+
+Budgeting tools: Allow users to set budgets and track their spending against these limits.
+Notifications: Implement alerts for when expenses exceed a certain threshold or when a payment is due.
+Category breakdowns: Provide insights into spending by category (e.g., food, entertainment, bills).
+Export options: Enable users to export their data to CSV or Excel for further analysis.
