@@ -24,24 +24,65 @@
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
-     <item row="5" column="0">
-      <widget class="QLabel" name="lblYear">
-       <property name="text">
-        <string>Year</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="2">
-      <widget class="QLineEdit" name="txtYear">
+     <item row="1" column="2">
+      <widget class="QComboBox" name="cmbTransactionType">
        <property name="maximumSize">
         <size>
-         <width>150</width>
+         <width>100</width>
          <height>16777215</height>
         </size>
        </property>
       </widget>
      </item>
-     <item row="10" column="6">
+     <item row="1" column="7">
+      <widget class="QComboBox" name="cmbMode">
+       <item>
+        <property name="text">
+         <string>View/Update/Delete</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Add Transaction</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="14" column="7">
+      <widget class="QPushButton" name="btnUpdate">
+       <property name="text">
+        <string>Update</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="7">
+      <widget class="QLabel" name="lblMode">
+       <property name="text">
+        <string>Mode</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="lblDate">
+       <property name="text">
+        <string>Date (dd-mm-yyyy)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="15" column="2">
+      <widget class="QCheckBox" name="chkSpecificDate">
+       <property name="maximumSize">
+        <size>
+         <width>200</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Specific Date</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="7">
       <widget class="QPushButton" name="btnSearch_2">
        <property name="maximumSize">
         <size>
@@ -54,46 +95,104 @@
        </property>
       </widget>
      </item>
-     <item row="12" column="2">
-      <widget class="QCheckBox" name="chkboxCategory">
-       <property name="maximumSize">
-        <size>
-         <width>100</width>
-         <height>16777215</height>
-        </size>
+     <item row="4" column="2">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Day</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spnDay">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>31</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Month</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spnMonth">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>12</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Year</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spnYear">
+         <property name="maximum">
+          <number>9999</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblTransactionType">
+       <property name="text">
+        <string>Transaction Type</string>
        </property>
+      </widget>
+     </item>
+     <item row="16" column="2">
+      <widget class="QCheckBox" name="chkMonthYear">
+       <property name="text">
+        <string>Month and Year</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblCategory">
        <property name="text">
         <string>Category</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="2">
-      <widget class="QDateEdit" name="dtSpecificDate">
-       <property name="maximumSize">
-        <size>
-         <width>150</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="displayFormat">
-        <string>dd-mm-yyyy</string>
+     <item row="16" column="7">
+      <widget class="QPushButton" name="btnAddTransaction_2">
+       <property name="text">
+        <string>Add</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="2">
-      <widget class="QComboBox" name="cmbTransactionType">
-       <property name="maximumSize">
-        <size>
-         <width>100</width>
-         <height>16777215</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="0">
+     <item row="12" column="0">
       <widget class="QLabel" name="lblSearchBy">
        <property name="text">
         <string>Search By:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="lblYear">
+       <property name="text">
+        <string>Year</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="lblMonth">
+       <property name="text">
+        <string>Month</string>
        </property>
       </widget>
      </item>
@@ -107,14 +206,17 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="lblTransactionType">
-       <property name="text">
-        <string>Transaction Type</string>
+     <item row="7" column="2">
+      <widget class="QLineEdit" name="txtYear">
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
        </property>
       </widget>
      </item>
-     <item row="3" column="2">
+     <item row="5" column="2">
       <widget class="QComboBox" name="cmbMonth">
        <property name="maximumSize">
         <size>
@@ -184,7 +286,14 @@
        </item>
       </widget>
      </item>
-     <item row="10" column="2">
+     <item row="15" column="7">
+      <widget class="QPushButton" name="btnDelete">
+       <property name="text">
+        <string>Delete</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="2">
       <widget class="QCheckBox" name="chkboxTransactionType">
        <property name="maximumSize">
         <size>
@@ -197,89 +306,19 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="lblMonth">
-       <property name="text">
-        <string>Month</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="lblCategory">
-       <property name="text">
-        <string>Category</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="lblDate">
-       <property name="text">
-        <string>Date (dd-mm-yyyy)</string>
-       </property>
-      </widget>
-     </item>
-     <item row="12" column="6">
-      <widget class="QPushButton" name="btnUpdate">
-       <property name="text">
-        <string>Update</string>
-       </property>
-      </widget>
-     </item>
-     <item row="13" column="6">
-      <widget class="QPushButton" name="btnDelete">
-       <property name="text">
-        <string>Delete</string>
-       </property>
-      </widget>
-     </item>
-     <item row="14" column="6">
-      <widget class="QPushButton" name="btnAddTransaction_2">
-       <property name="text">
-        <string>Add</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="6">
-      <widget class="QLabel" name="lblMode">
-       <property name="text">
-        <string>Mode</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="6">
-      <widget class="QComboBox" name="cmbMode">
-       <item>
-        <property name="text">
-         <string>View/Update/Delete</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Add Transaction</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="9" column="2">
+     <item row="11" column="2">
       <widget class="QTableWidget" name="tblTransactions_2"/>
      </item>
-     <item row="13" column="2">
-      <widget class="QCheckBox" name="chkSpecificDate">
+     <item row="14" column="2">
+      <widget class="QCheckBox" name="chkboxCategory">
        <property name="maximumSize">
         <size>
-         <width>200</width>
+         <width>100</width>
          <height>16777215</height>
         </size>
        </property>
        <property name="text">
-        <string>Specific Date</string>
-       </property>
-      </widget>
-     </item>
-     <item row="14" column="2">
-      <widget class="QCheckBox" name="chkMonthYear">
-       <property name="text">
-        <string>Month and Year</string>
+        <string>Category</string>
        </property>
       </widget>
      </item>

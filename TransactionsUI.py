@@ -111,24 +111,30 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
     def fetch_transactions(self):
         search_by_category = self.chkboxCategory.isChecked()
         search_by_transaction_type = self.chkboxTransactionType.isChecked()
-        search_by_specific_date = self.radSpecificDate.isChecked()
-        search_by_month_and_year = self.radMonthYear.isChecked()
+        search_by_specific_date = self.chkSpecificDate.isChecked()
+        search_by_month_and_year = self.chkMonthYear.isChecked()
         
         t_id = None
         date = None
         category = None
         t_type = None
+        date_type = None
         
         if search_by_category == True:
             category = self.cmbCategory.currentText()
+            
         if search_by_transaction_type == True:
             t_type = self.cmbTransactionType.currentText()
-        if search_by_specific_date ==True:
-            date = self.dtSpecificDate.text()
-        if search_by_month_and_year == True:
-            date = self.cmbMonth.text() + '-' + self.txtYear.text()
         
-        self.transactions = self.t_services.getTransactions(t_id, date, category, t_type)
+        if search_by_specific_date ==True:
+            date = self.get_date_for_search()
+            date_type = self.t_services.SPECIFIC_DATE
+        
+        if search_by_month_and_year == True:
+            date = str(self.cmbMonth.currentIndex() + 1) + '/' + self.txtYear.text()
+            date_type = self.t_services.MONTH_AND_YEAR
+        
+        self.transactions = self.t_services.getTransactions(t_id, date, category, t_type, date_type)
         if(len(self.transactions) >= 1):
             self.tblTransactions_2.setRowCount(0)
             self.populate_table(self.transactions)
@@ -286,7 +292,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         else:
             row = item.row()
             self.rows_to_be_updated.append(row)
-            print(row)
+
     
     #This one gets the transactions  that are specified by a set of rows instead of getting the highlighted transactions          
     def get_specified_transactions(self):
@@ -303,7 +309,17 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             transaction_t = Transaction.transaction(transaction_id, amount, category, transaction_type, t_date)
             specified_transactions.append(transaction_t)
         return specified_transactions
-           
+    
+    #this is for getting the specific date combining all the texts from the multiple spin boxes
+    def get_date_for_search(self):
+        day = self.spnDay.cleanText()
+        month = self.spnMonth.cleanText()
+        year = self.spnYear.cleanText()
+        date = day + "/" + month + "/" + year
+        
+        return date
+        
+             
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

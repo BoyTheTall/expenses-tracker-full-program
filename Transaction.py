@@ -1,6 +1,7 @@
 from re import split
 import sqlite3
 import random
+import string
 import time
 import datetime
 
@@ -23,42 +24,42 @@ class transaction:
         self.transaction_id = t_id
         self.date = datetime.date(year, month, day)
             
-    def getTransactionType(self):
+    def getTransactionType(self) -> str:
         return self.transaction_type
     
-    def getTransactionId(self):
+    def getTransactionId(self) -> int:
         return self.transaction_id
     
-    def getAmount(self):
+    def getAmount(self) -> float:
         return self.amount
     
-    def getCategory(self):
+    def getCategory(self) -> str:
         return self.category
     
     #this will return a string because that is what the rest of the architecture expects
-    def getDate(self):
+    def getDate(self) -> str:
         return self.date.strftime("%d") + "/" + self.date.strftime("%m") + "/" + self.date.strftime("%Y")
         
-    def setTransactionType(self, transaction_type):
+    def setTransactionType(self, transaction_type) -> None:
         self.transaction_type = transaction_type
         
-    def setTransactionID(self, transaction_id):
+    def setTransactionID(self, transaction_id) -> None:
         self.transaction_id = transaction_id
         
-    def setAmount(self, amount):
+    def setAmount(self, amount) -> None:
         self.amount = amount
     
-    def setCategory(self, category):
+    def setCategory(self, category) -> None:
         self.category = category
     
-    def setDate(self, date):
+    def setDate(self, date) -> None:
         split_date = date.split("/")
         year = int(split_date[2])
         month = int(split_date[1])
         day = int(split_date[0])
         self.date = datetime.date(year, month, day)
         
-    def toString(self):
+    def toString(self) -> string:
         t_string  = f"""
         Transaction Details
         Transaction ID: {self.getTransactionId()}
@@ -73,6 +74,10 @@ class transaction_services:
     db_conn = None #to be used for the data base connection
     db_directory = "transactions.db"
     cursor = None
+    #constants
+    MONTH_AND_YEAR = "month and year"
+    SPECIFIC_DATE = "specific date"
+    
     
     def __init__(self):
         self.initialise_conn()
@@ -82,23 +87,21 @@ class transaction_services:
         self.cursor = self.db_conn.cursor()
         
     
-    def create_tables(self):
+    def create_tables(self) -> None:
         sql_statement = """CREATE TABLE
         transactions(transaction_id, Amount, Category, Transaction_Type, Date)
                     
         """
         self.cursor.execute(sql_statement)
-        res = self.cursor.execute("SELECT name FROM sqlite_master")
-        print(res.fetchone())
-    
-    def add_transaction(self, transaction_t):
+        
+    def add_transaction(self, transaction_t) -> None:
         sql_statement = f"""INSERT INTO transactions VALUES ({transaction_t.getTransactionId()}, {transaction_t.getAmount()},
         '{transaction_t.getCategory()}', '{transaction_t.getTransactionType()}', '{transaction_t.getDate()}')"""
         self.cursor.execute(sql_statement)
         self.db_conn.commit()
         
             
-    def getExpenses(self):
+    def getExpenses(self) -> list:
         sql_statement = f"SELECT * FROM transactions WHERE Transaction_Type = \"expense\""
         res = self.cursor.execute(sql_statement)
         result_set = list(res.fetchall())#list
@@ -116,11 +119,10 @@ class transaction_services:
         return expenses
     
     #I likely wont use this function because the getTransactions function can have the same functionality
-    def getTransaction(self, transaction_id):
+    def getTransaction(self, transaction_id) -> list:
         sql_statement= f"SELECT * FROM transactions WHERE transaction_id = {transaction_id}"
         res = self.cursor.execute(sql_statement)
         result_set = res.fetchone()
-        print(result_set)
         t_id = result_set[0]
         amount = result_set[1]
         category = result_set[2]
@@ -129,8 +131,8 @@ class transaction_services:
         transaction_t = transaction(t_id, amount, category, transaction_type, date)
         return transaction_t
     
-    #needs to be tested
-    def getTransactions(self, t_id=None, date=None, category=None, t_type= None):
+    #needs to be tested date type will be used to distinguish what type of date we have, a specific or a general one with a month and year only. I should make a function that gets a years transactions later
+    def getTransactions(self, t_id=None, date=None, category=None, t_type= None, date_type=None) -> str:
         
         sql = "SELECT * FROM transactions"
         parameter_added = False
@@ -143,10 +145,19 @@ class transaction_services:
                 
         if date != None:
             if parameter_added == False:
-                sql += f" WHERE Date = '{date}'"
+                if date_type == "specific date":
+                    sql += f" WHERE Date = '{date}'"
+                
+                else:
+                    sql += f" WHERE DATE LIKE '%{date}'"
+                    
                 parameter_added = True
             else:
-                sql += f" AND Date = '{date}'"
+                if date_type == "specific date":
+                    sql += f" AND Date = '{date}'"
+                
+                else:
+                    sql += f" AND DATE LIKE '%{date}'"
         
         if category != None:
             if parameter_added == False:
@@ -169,7 +180,7 @@ class transaction_services:
         
             
     #this will assume that the things to update is already in the state of the transaction object, the transaction id will never change
-    def update_transaction(self, transaction_t):
+    def update_transaction(self, transaction_t) -> None:
         sql_statement = f"""UPDATE transactions
                 SET amount = {transaction_t.getAmount()}, Category = '{transaction_t.getCategory()}', Transaction_Type = '{transaction_t.getTransactionType()}', Date = '{transaction_t.getDate()}'
                 WHERE transaction_id = {transaction_t.getTransactionId()}"""
@@ -177,21 +188,21 @@ class transaction_services:
         self.db_conn.commit()
     
     #this wont be called by external code because the delete_multiple transactions can provide the same functionality of deleting one function
-    def delete_transaction(self, t_id):
+    def delete_transaction(self, t_id) -> None:
         sql = f"""DELETE FROM tblTransactions WHERE transaction_id = {t_id}"""
         self.cursor.execute(sql)
         self.db_conn.commit()
     
-    def delete_multiple_transactions(self, transaction_list):
+    def delete_multiple_transactions(self, transaction_list) -> None:
         for i in range(0, len(transaction_list)):
             self.delete_transaction(transaction_list[i].getTransactionID())
 
-def generate_ID():
+def generate_ID() -> int:
     db_id = int(time.time() + random.randint(0, int(time.time())))
     return db_id
 
 #this will be used to traverse result sets that will have multiple results but I should have code where it will bring up one record properly
-def tranverse_result_set(result_set):
+def tranverse_result_set(result_set) -> list:
     transactions = list([])
     for i in range(0, len(result_set)):
         #the lists within the resul set list are 5 items long/wide
