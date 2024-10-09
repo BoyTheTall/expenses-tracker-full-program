@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
-import Transaction, messages
+import Transaction as Transaction, messages as messages
 
 
 class Ui_MainWindow(QtWidgets.QMainWindow):
