@@ -19,7 +19,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
     
     def __init__(self):
         super(Ui_MainWindow, self).__init__()
-        uic.loadUi('TransactionsUI.ui', self)
+        uic.loadUi('ui_files/TransactionsUI.ui', self)
         self.setWindowIcon(QtGui.QIcon("icon.png"))
         self.show()
         
