@@ -12,16 +12,17 @@ from PyQt5 import QtCore, QtGui, QtWidgets, uic
 import Transaction as Transaction, messages as messages
 
 
-class Ui_MainWindow(QtWidgets.QMainWindow):
+class TransactionUI(QtWidgets.QMainWindow):
     rows_to_be_updated= []
     t_services = Transaction.transaction_services()
     transactions = [] #the length is used to check if it is empty or not through out this file
     
     def __init__(self):
-        super(Ui_MainWindow, self).__init__()
+        super(TransactionUI, self).__init__()
         uic.loadUi('ui_files/TransactionsUI.ui', self)
         self.setWindowIcon(QtGui.QIcon("icon.png"))
         self.show()
+        
         
         #added by me
         #functions that need to prepare data or load UI elements with their data
@@ -323,5 +324,5 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    window = Ui_MainWindow()
+    window = TransactionUI()
     app.exec_()

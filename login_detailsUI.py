@@ -13,13 +13,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets, uic
 import authenticator
 import messages as messages
 
-class Ui_MainWindow(QtWidgets.QMainWindow):
+class Login_DetailsUI(QtWidgets.QMainWindow):
     g_username = None
     def __init__(self):
-        super(Ui_MainWindow, self).__init__()
+        super(Login_DetailsUI, self).__init__()
         uic.loadUi('ui_files/login detailsUI.ui', self)
         self.setWindowIcon(QtGui.QIcon("icon.png"))
         self.show()
+        
         
         #stuff added by me 
         self.getDetails()
@@ -54,7 +55,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 def launch():
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    window = Ui_MainWindow()
+    window = Login_DetailsUI()
     app.exec_()
 
 if __name__ == "__main__":

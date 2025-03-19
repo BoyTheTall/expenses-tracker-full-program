@@ -13,12 +13,13 @@ import authenticator as au
 import messages as msg
 import login_detailsUI
 
-class Ui_MainWindow(QtWidgets.QMainWindow):
+class LoginUI(QtWidgets.QMainWindow):
     def __init__(self):
-        super(Ui_MainWindow, self).__init__()
+        super(LoginUI, self).__init__()
         uic.loadUi('ui_files/Login.ui', self)
         self.setWindowIcon(QtGui.QIcon("icon.png"))
         self.show()
+        
 
         #added by me
         self.btnLogin.clicked.connect(self.login)
@@ -50,6 +51,9 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             f = open("current session.txt", "w")
             f.write(username)
             f.close()
+            login_detailsUI.launch()
+            self.close()
+            
             
                     
         if login_attempt_status == 2:
@@ -61,7 +65,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 def launch():
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    window = Ui_MainWindow()
+    window = LoginUI()
     app.exec_()
 
 

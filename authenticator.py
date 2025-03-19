@@ -4,11 +4,11 @@ import sqlite3
 Login_failed  = 0
 Login_success = 1
 duplicate_credentials = 2
-
+db_path = "backend/passwords.db"
 # add encryption to this, I will try to make it a bundle with the login ui that can be used in any project without a
 # care in the world.
 def create_tables():
-    conn = sqlite3.connect("passwords.db")
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     sql = "CREATE TABLE tblPasswords(username, password)"
     cursor.execute(sql)
@@ -76,7 +76,7 @@ def auTest():
 
 
 def open_conn():
-    conn = sqlite3.connect("passwords.db")
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     return conn, cursor
 
