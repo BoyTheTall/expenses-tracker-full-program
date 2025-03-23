@@ -9,7 +9,7 @@
 #this is assummes each username is unique
 
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
-import authenticator as au
+import backend.authenticator as au
 import ui_files.messages as msg
 import ui_files.login_detailsUI as login_detailsUI
 

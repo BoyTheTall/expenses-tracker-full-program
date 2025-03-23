@@ -10,14 +10,14 @@
 import sys
 sys.path.append("Backend")
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
-import authenticator
+import backend.authenticator as authenticator
 import ui_files.messages as messages
 
 class Login_DetailsUI(QtWidgets.QMainWindow):
     g_username = None
     def __init__(self):
         super(Login_DetailsUI, self).__init__()
-        uic.loadUi('ui_files/login detailsUI.ui', self)
+        uic.loadUi('login detailsUI.ui', self)
         self.setWindowIcon(QtGui.QIcon("icon.png"))
         self.show()
         
