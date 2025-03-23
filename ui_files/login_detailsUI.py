@@ -11,7 +11,7 @@ import sys
 sys.path.append("Backend")
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 import authenticator
-import messages as messages
+import ui_files.messages as messages
 
 class Login_DetailsUI(QtWidgets.QMainWindow):
     g_username = None
@@ -55,6 +55,7 @@ class Login_DetailsUI(QtWidgets.QMainWindow):
 def launch():
     import sys
     app = QtWidgets.QApplication(sys.argv)
+    app.setStyle("Fusion")
     window = Login_DetailsUI()
     app.exec_()
 

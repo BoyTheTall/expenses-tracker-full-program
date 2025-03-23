@@ -10,8 +10,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 import authenticator as au
-import messages as msg
-import login_detailsUI
+import ui_files.messages as msg
+import ui_files.login_detailsUI as login_detailsUI
 
 class LoginUI(QtWidgets.QMainWindow):
     def __init__(self):
@@ -65,6 +65,7 @@ class LoginUI(QtWidgets.QMainWindow):
 def launch():
     import sys
     app = QtWidgets.QApplication(sys.argv)
+    app.setStyle("Fusion")
     window = LoginUI()
     app.exec_()
 

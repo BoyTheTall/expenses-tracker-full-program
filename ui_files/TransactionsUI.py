@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
-import Transaction as Transaction, messages as messages
+import backend.Transaction as Transaction, ui_files.messages as messages
 
 
 class TransactionUI(QtWidgets.QMainWindow):
@@ -324,5 +324,6 @@ class TransactionUI(QtWidgets.QMainWindow):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
+    app.setStyle("Fusion")
     window = TransactionUI()
     app.exec_()

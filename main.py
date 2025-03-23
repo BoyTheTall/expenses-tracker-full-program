@@ -1,4 +1,4 @@
-import Transaction
+import backend.Transaction as Transaction
 
 date = "12/10/2023"
 t_id = 1
