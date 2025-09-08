@@ -15,3 +15,9 @@ class portfolio:
     
     def getMoneyDeposited(self):
         return self.money_deposited
+    
+    def getDate(self):
+        return self.date
+    
+    def getGain(self):
+        return self.gain()
