@@ -72,7 +72,7 @@ class transaction:
     
 class transaction_services:
     db_conn = None #to be used for the data base connection
-    db_directory = "transactions.db"
+    db_directory = "backend/transactions.db"
     cursor = None
     #constants
     MONTH_AND_YEAR = "month and year"

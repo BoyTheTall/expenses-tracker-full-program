@@ -1,28 +1,27 @@
+from PyQt6 import QtWidgets
+from PyQt6.QtWidgets import QMessageBox
+
 ERROR_MSG = 0
 INFO_MSG = 1
 YES_NO_BOX = 4
-from PyQt5 import QtWidgets
 
-def display_message(message, title, message_type):
-    msg = QtWidgets.QMessageBox()
+def display_message(message: str, title: str, message_type: int):
+    msg = QMessageBox()
     msg.setWindowTitle(title)
     msg.setText(message)
+
     if message_type == ERROR_MSG:
-        msg.setIcon(QtWidgets.QMessageBox.Critical)
-        
+        msg.setIcon(QMessageBox.Icon.Critical)
     elif message_type == INFO_MSG:
-        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setIcon(QMessageBox.Icon.Information)
 
-    msg.exec_()
+    msg.exec()
 
-def display_option_message(message, title, type_of_dialog=None):
-    msg = QtWidgets.QMessageBox()
-    msg.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+def display_option_message(message: str, title: str, type_of_dialog=None) -> bool:
+    msg = QMessageBox()
     msg.setWindowTitle(title)
     msg.setText(message)
+    msg.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+
     result = msg.exec()
-    if result == QtWidgets.QMessageBox.Yes:
-        return True
-    else:
-        return False
-    
+    return result == QMessageBox.StandardButton.Yes
