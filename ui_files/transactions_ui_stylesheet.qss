@@ -1,0 +1,21 @@
+QLabel{
+
+    color: grey;
+    font-family: times;
+}
+QComboBox{
+    background-color: rgba(151, 75, 128, 1);
+    border-radius: 6px;
+
+}
+QComboBox::drop-down{
+    border-radius: 5px;
+}
+QPushButton{
+    border-radius: 6px;
+    color: black;
+    background-color: rgba(68, 238, 238, 1);
+}
+QMainWindow{
+    background-color: rgba(38, 72, 116, 1)
+}

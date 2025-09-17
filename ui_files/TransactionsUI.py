@@ -25,7 +25,7 @@ class TransactionUI(QtWidgets.QMainWindow):
         uic.loadUi('ui_files/TransactionsUI.ui', self)
         self.setWindowIcon(QIcon("icon.png"))
         self.show()
-
+        
         self.prepare_table()
         self.transactions = self.t_services.getExpenses()
         self.populate_table(self.transactions)
@@ -320,6 +320,8 @@ class TransactionUI(QtWidgets.QMainWindow):
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
-    app.setStyle("Fusion")
+    with open("ui_files/transactions_ui_stylesheet.qss", "r") as f:
+        _style = f.read()
+    app.setStyleSheet(_style)
     window = TransactionUI()
     app.exec()
